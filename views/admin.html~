@@ -1,0 +1,23 @@
+<html>
+	<head>
+		<title>{{title}}</title>
+		<link rel='stylesheet' href='/stylesheets/style.css' />
+		<script src="/socket.io/socket.io.js"></script>
+		
+	<head>
+	<body>
+		<p>Nombre de lien: <span id="linkCount">0</span></p>
+		<p>Nombre de click total: <span id="clickCount">0</span></p>
+		<div id="listURL">
+			<p>
+				<input type="text"  placeholder="enter your long URL here" id="shorten-input" />
+				<input type="button" value="Add" id="addmoi"/>
+			</p>
+		</div>
+		
+		<div>
+			<ul id="links"></ul>
+		</div>
+	</body>
+	<script type="text/javascript" src="/javascripts/gestionPageAdmin.js"></script>
+</html>

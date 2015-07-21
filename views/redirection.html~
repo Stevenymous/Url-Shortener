@@ -1,0 +1,11 @@
+<html>
+	<head>
+		<title>{{title}}</title>
+		<link rel='stylesheet' href='/stylesheets/style.css' />
+		<meta http-equiv="refresh" content="5; URL={{lien}}">
+	</head>
+	
+	<body>
+		Redirection vers www.manouvelleadresse.com dans 5 secondes.
+	</body>
+</html> 

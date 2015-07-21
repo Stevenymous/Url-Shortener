@@ -1,0 +1,41 @@
+var shortId = require('shortid');
+var mongoose = require('mongoose');
+
+module.exports = {
+	insertLink: function(link) {
+		console.log("passe");
+		var id = shortId.generate();
+		console.log('Id lien' + id);
+			
+		var uridb = "mongodb://User2:usr@ds039211.mongolab.com:39211/shortner";
+		mongoose.connect(uridb, function(err) {
+			console.log('connecté');// yay!
+			
+			console.log("Creation du schéma");
+			var shortnerModel
+			try {
+				shortnerModel = mongoose.model('short');
+			} catch (OverwriteModelError) {		
+				//Creation du schéma des données
+				schema = new mongoose.Schema({
+					id: { type: String, unique: true,},
+					link : String,
+					countClick : Number
+				});
+				//Enregistrement du schéma
+				var shortnerModel = mongoose.model('short', schema);
+			}
+			var newLink = new shortnerModel({ id : id, link : link, countClick : 0});
+		
+			console.log('Sauvegarde du résultat');
+			newLink.save(function (err, newLink) {
+	  			if (err) return console.error(err);
+	  			//newLink.speak();
+			});
+			console.log('Fermeture de la connexion');
+			mongoose.connection.close();
+		});
+		
+		return id;
+	}
+}

@@ -1,0 +1,60 @@
+<div id="indicator">
+</div>
+
+<div id="listURL">
+	<p>
+		<input type="text" id="shorten-input" placeholder="enter your long URL here " />
+		<button id="add" type="submit">Add</button>
+	</p>
+</div>
+
+
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+	var bouttonAdd = document.getElementById("add");
+	bouttonAdd.addEventListener("click", addURL, false);
+
+	function addURL() {
+		//Recuperation de la valeur du input
+		var lienOriginal = document.getElementById("shorten-input").value;
+		
+		//Envoie du nouveau lien
+		var socket = io.connect('http://localhost:3000');
+		socket.on('adminpage', function (data) {
+			socket.emit('addLink', { link: lienOriginal });
+		});
+
+
+
+
+		var lienGenere = "http://localhost:3000/link/" + makeid(),
+		
+		//Recuperation de la balise père
+		var listURL = document.getElementById("listURL");
+		var parentElement = listURL.parentNode;
+		
+		//Creation de la nouvelle balise
+		var newElement = document.createElement("li");
+		var newElementContent = document.createTextNode(lienOriginal);
+		newElement.appendChild(newElementContent);
+
+		//Ajout de l'élément
+		parentElement.appendChild(newElement);
+    
+		var totalLinks = document.querySelectorAll("li").length;
+		//alert(totalLinks);
+	}
+
+
+
+	function makeid(){
+		var text = "";
+		var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+		for( var i=0; i < 10; i++ ){
+			text += possible.charAt(Math.floor(Math.random() * possible.length));
+		}
+		return text;
+	}
+</script>

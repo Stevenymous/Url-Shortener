@@ -1,0 +1,45 @@
+var mongoose = require('mongoose');
+
+
+module.exports = {
+	getLink: function(idLink) {
+		var leLien = "";
+		
+		// Recherche du lien
+		var uridb = "mongodb://User:usr@ds039211.mongolab.com:39211/shortner";
+		mongoose.connect(uridb, function(err) {
+			console.log('Recuperation du schéma de données');
+			var shortnerModel;
+			try {
+				shortnerModel = mongoose.model('short');
+			} catch (OverwriteModelError) {
+				var schema = new mongoose.Schema({
+					id: { type: String, unique: true,},
+					link : String,
+					countClick : Number
+				});
+				shortnerModel = mongoose.model('short', schema);
+			}
+		
+			console.log("Recherche du lien");
+			shortnerModel.find({id: idLink}, function (err, comms) {
+				if (err) { throw err; }
+				// Incremantation du compteur de clic et MAJ
+				var countLink = comms[0].countClick + 1;
+				shortnerModel.update({ id : comms[0].id}, { countClick : countLink }, function (err) {
+  					if (err) { throw err; }
+				});
+			
+				// Problème, toLink renvoie la lien à ce moment là  sans attendre le retour !!!
+				
+				console.log("Contrôle du lien et renvoie");
+				this.leLien = comms[0].link;
+				if(leLien.indexOf("http://") == -1 && leLien.indexOf("https://") == -1){
+					leLien = "http://" + leLien;
+				}
+			console.log(this.leLien);
+			});
+		});
+		return leLien;
+	}
+}

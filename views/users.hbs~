@@ -1,0 +1,21 @@
+h1 = "LicenceProWeb URL shortner"
+
+<p>
+	<input type="text" name="inputURL" placeholder="enter your long URL here " />
+</p>
+<button id="shorten">Shorten URL</button>
+
+
+
+
+
+
+
+
+<script>
+	var bouttonShorten = document.getElementById("shorten");
+	bouttonCount.addEventListener("click", shorten, false);
+
+	function shorten() {
+	}
+</script>

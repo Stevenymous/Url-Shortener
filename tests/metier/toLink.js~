@@ -1,0 +1,23 @@
+// tests/routes/toLink.js
+var test = require('tape');
+
+/**
+ * define a helper to assert an object is an Array
+ */
+function assertArray(t, val) {
+    t.equal(Object.prototype.toString.call(val), '[object Array]');
+}
+
+test('Module should complete the link', function (t) {
+    t.plan(1);
+    var checkLink = require('../../routes/checkLink');
+	 
+    t.equal(checkLink.prepareLink("www.free.fr"), "http://www.free.fr");
+});
+
+test('Module should work with empty paremeters', function (t) {
+    t.plan(1);
+    var checkLink = require('../../routes/checkLink');
+	 
+    t.equal(checkLink.prepareLink(""), "http://");
+});

@@ -1,0 +1,38 @@
+var mongoose = require('mongoose');
+
+module.exports = {
+	insertLink: function(link) {
+		console.log('Recuperation du schéma de données');
+		var shortnerModel;
+		try {
+			shortnerModel = mongoose.model('short');
+		} catch (OverwriteModelError) {
+			var schema = new mongoose.Schema({
+				id: { type: String, unique: true,},
+				link : String,
+				countClick : Number
+			});
+			shortnerModel = mongoose.model('short', schema);
+		}
+		console.log("Recherche des liens");
+		shortnerModel.find({id: idLink}, function (err, comms) {
+			if (err) { throw err; }
+			
+			// Incremantation du compteur de clic
+			var countLink = comms[0].countClick + 1;
+			shortnerModel.update({ id : comms[0].id}, { countClick : countLink }, function (err) {
+  				if (err) { throw err; }
+  				console.log('CountLink update');
+			});
+			
+			
+			
+			var leLien = comms[0].link;
+			if(leLien.indexOf("http://") == -1 && leLien.indexOf("https://") == -1){
+				leLien = "http://" + leLien;
+			}
+			
+			
+		});
+	}
+}
